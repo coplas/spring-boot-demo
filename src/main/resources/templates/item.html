@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="main">
+<head>
+    <title>Dummy Items</title>
+</head>
+<body>
+
+<h1 layout:fragment="title">Dummy item</h1>
+
+<div layout:fragment="content">
+    <p th:text="${user.id}">1.</p>
+    <p th:text="${user.firstName}">Firstname</p>
+    <p th:text="${user.lastName}">Lastname</p>
+</div>
+</body>
+</html>
