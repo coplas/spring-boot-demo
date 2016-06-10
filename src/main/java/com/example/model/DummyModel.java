@@ -1,9 +1,8 @@
 package com.example.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author CoPLaS
@@ -16,6 +15,9 @@ public class DummyModel {
     private long id;
     private String firstName;
     private String lastName;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "dummyModel")
+    private List<DummyModelItem> items = new ArrayList<>();
 
     protected DummyModel() {
     }
@@ -47,6 +49,19 @@ public class DummyModel {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<DummyModelItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<DummyModelItem> items) {
+        this.items = items;
+    }
+
+    public void addItem(DummyModelItem item) {
+        item.setDummyModel(this);
+        getItems().add(item);
     }
 
     @Override

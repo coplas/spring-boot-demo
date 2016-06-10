@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sd="http://www.thymeleaf.org/spring-data"
+      layout:decorator="main">
+<head>
+    <title>Dummy Items</title>
+</head>
+<body>
+
+<h1 layout:fragment="title">Dummy item</h1>
+
+<div layout:fragment="content">
+    <p th:text="${user.id}">1.</p>
+    <p th:text="${user.firstName}">Firstname</p>
+    <p th:text="${user.lastName}">Lastname</p>
+
+    <table class="table table-striped table-responsive table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>#2</th>
+            <th><a sd:pagination-sort="phone">phone</a></th>
+            <th><a sd:pagination-sort="email">email</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}">1.</td>
+            <td th:text="${item.dummyModel.id}">1.</td>
+            <td th:text="${item.phone}">phone</td>
+            <td th:text="${item.email}">email</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul class="pagination" sd:pagination="aligned-links"></ul>
+
+</div>
+</body>
+</html>

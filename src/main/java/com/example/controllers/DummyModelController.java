@@ -1,6 +1,8 @@
 package com.example.controllers;
 
 import com.example.model.DummyModel;
+import com.example.model.DummyModelItem;
+import com.example.repository.DummyModelItemRepository;
 import com.example.repository.DummyModelRepository;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class DummyModelController {
     @Autowired
     DummyModelRepository repository;
 
+    @Autowired
+    DummyModelItemRepository repositoryItems;
+
     @RequestMapping(value = "/")
     String index(Model model,
                  @QuerydslPredicate(root = DummyModel.class) Predicate predicate,
@@ -26,14 +31,18 @@ public class DummyModelController {
 
         model.addAttribute("users", repository.findAll(predicate, pageable));
 
-        return "table";
+        return "dummymodel/table";
     }
 
     @RequestMapping(value = "/{id}")
-    String item(Model model, @PathVariable long id) {
+    String item(Model model, @PathVariable long id,
+                @QuerydslPredicate(root = DummyModelItem.class) Predicate predicate,
+                @PageableDefault(sort = { "id" }) Pageable pageable) {
 
-        model.addAttribute("user", repository.findOne(id));
+        DummyModel dummyModel = repository.findOne(id);
+        model.addAttribute("user", dummyModel);
+        model.addAttribute("items", repositoryItems.findAll(predicate, pageable));
 
-        return "item";
+        return "dummymodel/item";
     }
 }
