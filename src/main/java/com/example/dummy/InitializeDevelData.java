@@ -27,6 +27,10 @@ public class InitializeDevelData implements CommandLineRunner {
     public void run(String... args) {
         log.info("initialize devel data START");
         DummyModel model1 = new DummyModel("John", "Doe");
+        for (int j = 0; j < 20; j++) {
+            DummyModelItem item = new DummyModelItem("123", "test1@test1.sk");
+            model1.addItem(item);
+        }
         dummyModelRepository.save(model1);
 
         log.info("size: " + dummyModelRepository.count());
@@ -39,13 +43,13 @@ public class InitializeDevelData implements CommandLineRunner {
         for (int i = 0; i < 100; i++) {
             DummyModel model = new DummyModel("Name" + i, i + "Surname");
             for (int j = 0; j < 20; j++) {
-                DummyModelItem item = new DummyModelItem(UUID.randomUUID().toString(), "test1@"+UUID.randomUUID().toString());
+                DummyModelItem item = new DummyModelItem(UUID.randomUUID().toString(), "test"+i+"@"+UUID.randomUUID().toString());
                 model.addItem(item);
             }
             dummyModelRepository.save(model);
             log.debug("generated: " + model);
             for (int j = 0; j < 20; j++) {
-                DummyModelItem item = new DummyModelItem(UUID.randomUUID().toString(), "test2@"+UUID.randomUUID().toString());
+                DummyModelItem item = new DummyModelItem(UUID.randomUUID().toString(), "test"+i+"@"+UUID.randomUUID().toString());
                 model.addItem(item);
                 dummyModelItemRepository.save(item);
             }

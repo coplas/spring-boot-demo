@@ -5,6 +5,7 @@ import com.example.model.DummyModelItem;
 import com.example.model.QDummyModelItem;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.StringPath;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -18,7 +19,10 @@ public interface DummyModelItemRepository extends PagingAndSortingRepository<Dum
         QueryDslPredicateExecutor<DummyModelItem>,
         QuerydslBinderCustomizer<QDummyModelItem> {
 
-    List<DummyModelItem> findByDummyModel(DummyModel dummyModel, Predicate predicate, Pageable pageable);
+    Page<DummyModelItem> findAllByPhone(String phone, Pageable pageable);
+
+    List<DummyModelItem> findAllByPhone(String phone);
+
 
     @Override
     default public void customize(QuerydslBindings bindings, QDummyModelItem dummyModel) {
