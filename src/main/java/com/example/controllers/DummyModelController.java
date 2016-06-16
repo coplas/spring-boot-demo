@@ -2,14 +2,9 @@ package com.example.controllers;
 
 import com.example.model.DummyModel;
 import com.example.model.DummyModelItem;
-import com.example.model.QDummyModelItem;
-import com.example.repository.DummyModelItemRepository;
 import com.example.repository.DummyModelRepository;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Operator;
+import com.example.service.DummyService;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.BooleanOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -27,7 +22,7 @@ public class DummyModelController {
     DummyModelRepository repository;
 
     @Autowired
-    DummyModelItemRepository repositoryItems;
+    DummyService dummyService;
 
     @RequestMapping(value = "/")
     String index(Model model,
@@ -46,17 +41,8 @@ public class DummyModelController {
 
         DummyModel dummyModel = repository.findOne(id);
 
-        QDummyModelItem item = QDummyModelItem.dummyModelItem;
-        BooleanExpression dummyModelItems = item.dummyModel.eq(dummyModel);
-
-        if (predicate != null) {
-            dummyModelItems = dummyModelItems.and(predicate);
-        }
-
-
         model.addAttribute("user", dummyModel);
-        model.addAttribute("items", repositoryItems.findAll(dummyModelItems, pageable));
-//        model.addAttribute("items", repositoryItems.findAll(predicate, pageable));
+        model.addAttribute("items", dummyService.getPageForDummyItem(id, predicate, pageable));
 
         return "dummymodel/item";
     }
